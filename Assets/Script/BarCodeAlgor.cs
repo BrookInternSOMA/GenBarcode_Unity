@@ -1,20 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
-public class BarCodeAlgor : MonoBehaviour
+public class BarCodeAlgor
 {
 
+    public string CODE { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private List<int> chekofCodeList = new List<int>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
