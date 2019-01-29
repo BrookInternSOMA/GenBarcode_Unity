@@ -3,6 +3,7 @@ using System.Collections;
 
 public class ScreenShot : MonoBehaviour
 {
+
     public int resWidth = 2550;
     public int resHeight = 3300;
 

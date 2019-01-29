@@ -16,16 +16,6 @@ public class SetTextureFromQuad : MonoBehaviour
     public GameObject CurrQuad { set{ m_CurrQuad = value; } get { return m_CurrQuad; } }
 
 
-    private void Awake()
-    {
-       
-    }
-
-
-    private void Start()
-    {
-
-    }
     // Start is called before the first frame update
     public void InitialQuad()
     {
@@ -36,18 +26,10 @@ public class SetTextureFromQuad : MonoBehaviour
             m_MeshRenderer = m_CurrQuad.gameObject.GetComponent<MeshRenderer>();
 
             m_MakeTex2D = new MakeTex2D();
-            m_MakeTex2D.InitialTex2D(100, MakeTex2D.BAR_ENC.CODE128);
+            m_MakeTex2D.InitialTex2D(MakeTex2D.BAR_ENC.CODE128);
 
             m_MeshRenderer.material.mainTexture = m_MakeTex2D.GetTexture();
         }
-    }
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
 

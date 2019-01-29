@@ -2,63 +2,75 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using JinUtill;
+
 public class MakeTex2D : MonoBehaviour
 {
     [SerializeField]
     public enum BAR_ENC { None, CODE128 }
 
 
-    private Texture2D barTexture;
+    private Texture2D BarTexture;
+    private BarCodeAlgor m_barCodeAlgor;
+
     private int iWidthOfBar = 0;
     private int iBarEnc = (int)BAR_ENC.None;
-    // Start is called before the first frame update
-    
+    private int iBias = -90;
 
-    void Start()
+
+    public void InitialTex2D(BAR_ENC Enc)
     {
+        int barWidth = -1;
+        int resOKBarGen = -99;
 
-    }
+        m_barCodeAlgor = new BarCodeAlgor();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+        m_barCodeAlgor.CODE = "12345abc";
+        resOKBarGen = (int)m_barCodeAlgor.MakeBinOfCode();
 
-    public void InitialTex2D(int Width, BAR_ENC Enc)
-    {
-        barTexture = new Texture2D(Width, 1);
-        iWidthOfBar = Width;
+        barWidth = m_barCodeAlgor.CalBitOfNum();
+
+
+        BarTexture = new Texture2D(barWidth, 1);
+        iWidthOfBar = barWidth;
         iBarEnc = (int)Enc;
 
-        barTexture.wrapMode = TextureWrapMode.Clamp;
-        barTexture.filterMode = FilterMode.Point;
-        SetPixelsTexture();
+        BarTexture.wrapMode = TextureWrapMode.Clamp;
+        BarTexture.filterMode = FilterMode.Point;
 
+
+        if(resOKBarGen == (int)CommonUtill.RESULT_CODE.Success)
+            DrawCodeTexture();
 
     }
 
-    public Texture2D GetTexture() { return barTexture; }
+    public Texture2D GetTexture() { return BarTexture; }
 
-
-    private void SetPixelsTexture()
+    private void DrawCodeTexture()
     { 
-        if (barTexture == null)
+        if (BarTexture == null)
             return;
 
-        Color[] cols = barTexture.GetPixels(0);
-        for (int i = 0; i < cols.Length; ++i)
+        Color[] cols = BarTexture.GetPixels(0);
+
+        int index = 0;
+        for (int i = 0; i < m_barCodeAlgor.BinOfCodeList.Count; i++)
         {
-            int randNumm = Random.Range(1, 10);
-            if (i % randNumm  == 0)
-                cols[i] = Color.black;
-            else
-                cols[i] = Color.white;
+            char[] strTempBin = m_barCodeAlgor.BinOfCodeList[i].ToCharArray();
+            for (int j = 0; j < strTempBin.Length; j++)
+            {
+                if (strTempBin[j] == '1')
+                    cols[index] = Color.black;
+                else
+                    cols[index] = Color.white;
+
+                index++;
+            }
         }
 
 
-        barTexture.SetPixels(cols, 0);
+        BarTexture.SetPixels(cols, 0);
 
-        barTexture.Apply();
+        BarTexture.Apply();
     }
 }
