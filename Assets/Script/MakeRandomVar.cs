@@ -26,14 +26,15 @@ public class MakeRandomVar : MonoBehaviour
 
     private System.DateTime preT;
 
-    // Start is called before the first frame update
+
+
     void Start()
     {
         preT = System.DateTime.Now;
     }
     
 
-    // Update is called once per frame
+
     void Update()
     {
         System.DateTime nowT = System.DateTime.Now;

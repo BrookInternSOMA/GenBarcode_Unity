@@ -9,8 +9,8 @@ public class Gen1DBarcode : MonoBehaviour
 
     private SetTextureFromQuad m_SetTexture = new SetTextureFromQuad();
 
-    // Start is called before the first frame update
-    void Start()
+   
+    private void Start()
     {
         if (QuadOfBarcode != null)
         {
@@ -18,12 +18,6 @@ public class Gen1DBarcode : MonoBehaviour
             m_SetTexture.InitialQuad();
 
         } 
-
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }

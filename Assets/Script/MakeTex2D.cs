@@ -25,7 +25,7 @@ public class MakeTex2D : MonoBehaviour
 
         m_barCodeAlgor = new BarCodeAlgor();
 
-        m_barCodeAlgor.CODE = "12345abc";
+        m_barCodeAlgor.CODE = "TaeJoong94";
         resOKBarGen = (int)m_barCodeAlgor.MakeBinOfCode();
 
         barWidth = m_barCodeAlgor.CalBitOfNum();

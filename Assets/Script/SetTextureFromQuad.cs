@@ -16,7 +16,7 @@ public class SetTextureFromQuad : MonoBehaviour
     public GameObject CurrQuad { set{ m_CurrQuad = value; } get { return m_CurrQuad; } }
 
 
-    // Start is called before the first frame update
+   
     public void InitialQuad()
     {
         if (m_CurrQuad == null)
@@ -34,6 +34,6 @@ public class SetTextureFromQuad : MonoBehaviour
 
 
 
-
+    
 
 }

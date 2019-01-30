@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 using JinUtill;
+using Zen.Barcode;
 
 public class BarCodeAlgor
 {
@@ -9,15 +10,15 @@ public class BarCodeAlgor
     #region Public Var
     public string CODE { get; set; }
 
+
+
     public List<string> BinOfCodeList = new List<string>();
     #endregion
 
 
     #region Private Var
-    private int iCheck = 0;
-    private string strCheck = "";
-
-    private List<int> CheckofCodeList = new List<int>();
+    private Glyph[] m_Code128;
+    private Glyph[] m_Code128Check;
     #endregion
 
 
@@ -26,24 +27,26 @@ public class BarCodeAlgor
     {
         if(CODE != "")
         {
-            BinOfCodeList.Add(CommonUtill.DecToBin(1668));
 
-            char[] tempCodeList = CODE.ToCharArray();
-            for(int i = 0; i < tempCodeList.Length; i++)
+            m_Code128 = Code128GlyphFactory.Instance.GetGlyphs(CODE);
+            for(int i = 0; i < m_Code128.Length; i++)
             {
-                int tempASCII = CommonUtill.ConvertASCII(
-                                tempCodeList[i].ToString());
-                CheckofCodeList.Add(tempASCII);
-                BinOfCodeList.Add(CommonUtill.DecToBin(tempASCII));
+                Code128Glyph temp = (Code128Glyph)m_Code128[i];
+                BinOfCodeList.Add(CommonUtill.DecToBin(temp.BitEncoding));
             }
 
-            for (int i = 0; i < CheckofCodeList.Count; i++)
-                iCheck += CheckofCodeList[i] * i;
 
-            strCheck = CommonUtill.DecToBin((int)((iCheck + 104) % 103));
+            m_Code128Check = Code128Checksum.Instance.GetChecksum(CODE);
+            for (int i = 0; i < m_Code128Check.Length; i++)
+            {
+                Code128Glyph tempCheck = (Code128Glyph)m_Code128Check[i];
+                BinOfCodeList.Add(CommonUtill.DecToBin(tempCheck.BitEncoding));
+            }
 
-            BinOfCodeList.Add(strCheck);
-            BinOfCodeList.Add(CommonUtill.DecToBin(1594));
+
+            BinOfCodeList.Add(CommonUtill.DecToBin(6379));
+
+
 
 
 #if DEBUG
@@ -68,6 +71,8 @@ public class BarCodeAlgor
     }
 
 
+
+
     public int CalBitOfNum()
     {
         int resultSize = 0;
@@ -83,6 +88,7 @@ public class BarCodeAlgor
 
         return resultSize;
     }
+
 
 
 
