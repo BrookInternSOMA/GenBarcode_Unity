@@ -26,7 +26,7 @@ public class BarCodeAlgor
     {
         if(CODE != "")
         {
-            BinOfCodeList.Add(CommonUtill.DecToBin(141));
+            BinOfCodeList.Add(CommonUtill.DecToBin(1668));
 
             char[] tempCodeList = CODE.ToCharArray();
             for(int i = 0; i < tempCodeList.Length; i++)
@@ -43,7 +43,7 @@ public class BarCodeAlgor
             strCheck = CommonUtill.DecToBin((int)((iCheck + 104) % 103));
 
             BinOfCodeList.Add(strCheck);
-            BinOfCodeList.Add(CommonUtill.DecToBin(140));
+            BinOfCodeList.Add(CommonUtill.DecToBin(1594));
 
 
 #if DEBUG
