@@ -20,4 +20,10 @@ public class Gen1DBarcode : MonoBehaviour
         } 
     }
 
+    public void ChangeBarCode(string code)
+    {
+        m_SetTexture.InitialQuad(code);
+    }
+
+
 }

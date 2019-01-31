@@ -18,14 +18,14 @@ public class MakeTex2D : MonoBehaviour
     private int iBias = -90;
 
 
-    public void InitialTex2D(BAR_ENC Enc)
+    public void InitialTex2D(BAR_ENC Enc, string code = "TaeJoong94")
     {
         int barWidth = -1;
         int resOKBarGen = -99;
 
         m_barCodeAlgor = new BarCodeAlgor();
 
-        m_barCodeAlgor.CODE = "TaeJoong94";
+        m_barCodeAlgor.CODE = code;
         resOKBarGen = (int)m_barCodeAlgor.MakeBinOfCode();
 
         barWidth = m_barCodeAlgor.CalBitOfNum();

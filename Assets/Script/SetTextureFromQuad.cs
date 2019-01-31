@@ -17,7 +17,7 @@ public class SetTextureFromQuad : MonoBehaviour
 
 
    
-    public void InitialQuad()
+    public void InitialQuad(string code= "TaeJoong94")
     {
         if (m_CurrQuad == null)
             Debug.Log("not setting Quad");
@@ -26,7 +26,7 @@ public class SetTextureFromQuad : MonoBehaviour
             m_MeshRenderer = m_CurrQuad.gameObject.GetComponent<MeshRenderer>();
 
             m_MakeTex2D = new MakeTex2D();
-            m_MakeTex2D.InitialTex2D(MakeTex2D.BAR_ENC.CODE128);
+            m_MakeTex2D.InitialTex2D(MakeTex2D.BAR_ENC.CODE128, code);
 
             m_MeshRenderer.material.mainTexture = m_MakeTex2D.GetTexture();
         }

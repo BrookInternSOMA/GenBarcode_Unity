@@ -9,9 +9,9 @@ public class ScreenShot : MonoBehaviour
 
 
 
-    public static string ScreenShotName(int width, int height)
+    public static string ScreenShotName(string name, int width, int height)
     {
-        return string.Format("{0}/screenshots/screen_{1}x{2}_{3}.png",
+        return string.Format("{0}/../screenshots/"+name+".png",
                              Application.dataPath,
                              width, height,
                              System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
@@ -19,7 +19,7 @@ public class ScreenShot : MonoBehaviour
 
 
 
-    public void Shot()
+    public void Shot(string name)
     {
         RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
         Camera.main.targetTexture = rt;
@@ -31,7 +31,7 @@ public class ScreenShot : MonoBehaviour
         RenderTexture.active = null; // JC: added to avoid errors
         Destroy(rt);
         byte[] bytes = screenShot.EncodeToPNG();
-        string filename = ScreenShotName(resWidth, resHeight);
+        string filename = ScreenShotName(name, resWidth, resHeight);
         System.IO.File.WriteAllBytes(filename, bytes);
         Debug.Log(string.Format("Took screenshot to: {0}", filename));
     }
