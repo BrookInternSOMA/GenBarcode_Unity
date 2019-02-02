@@ -8,19 +8,26 @@ public class ScreenShot : MonoBehaviour
     public int resHeight = 3300;
 
 
+    public string strPath;
+    public bool bFistInitPath = true;
 
-    public static string ScreenShotName(string name, int width, int height)
+
+
+
+
+
+    private string ScreenShotName(string name, int width, int height)
     {
-        return string.Format("{0}/../screenshots/"+name+".png",
-                             Application.dataPath,
-                             width, height,
-                             System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
+        return strPath + "/" + name + ".png";
     }
 
 
 
     public void Shot(string name)
     {
+        if(bFistInitPath)
+            strPath = Application.dataPath + "/../screenshots/";
+
         RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
         Camera.main.targetTexture = rt;
         Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
@@ -32,6 +39,7 @@ public class ScreenShot : MonoBehaviour
         Destroy(rt);
         byte[] bytes = screenShot.EncodeToPNG();
         string filename = ScreenShotName(name, resWidth, resHeight);
+        //GameObject.Find("Text (22)").gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = filename;
         System.IO.File.WriteAllBytes(filename, bytes);
         Debug.Log(string.Format("Took screenshot to: {0}", filename));
     }

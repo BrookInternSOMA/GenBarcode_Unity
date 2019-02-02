@@ -15,7 +15,38 @@ public class MakeTex2D : MonoBehaviour
 
     private int iWidthOfBar = 0;
     private int iBarEnc = (int)BAR_ENC.None;
-    private int iBias = -90;
+
+
+
+    private void DrawCodeTexture()
+    {
+        if (BarTexture == null)
+            return;
+
+        Color[] cols = BarTexture.GetPixels(0);
+
+        int index = 0;
+        for (int i = 0; i < m_barCodeAlgor.BinOfCodeList.Count; i++)
+        {
+            char[] strTempBin = m_barCodeAlgor.BinOfCodeList[i].ToCharArray();
+            for (int j = 0; j < strTempBin.Length; j++)
+            {
+                if (strTempBin[j] == '1')
+                    cols[index] = Color.black;
+                else
+                    cols[index] = Color.white;
+
+                index++;
+            }
+        }
+
+
+        BarTexture.SetPixels(cols, 0);
+
+        BarTexture.Apply();
+    }
+
+
 
 
     public void InitialTex2D(BAR_ENC Enc, string code = "TaeJoong94")
@@ -46,31 +77,5 @@ public class MakeTex2D : MonoBehaviour
 
     public Texture2D GetTexture() { return BarTexture; }
 
-    private void DrawCodeTexture()
-    { 
-        if (BarTexture == null)
-            return;
 
-        Color[] cols = BarTexture.GetPixels(0);
-
-        int index = 0;
-        for (int i = 0; i < m_barCodeAlgor.BinOfCodeList.Count; i++)
-        {
-            char[] strTempBin = m_barCodeAlgor.BinOfCodeList[i].ToCharArray();
-            for (int j = 0; j < strTempBin.Length; j++)
-            {
-                if (strTempBin[j] == '1')
-                    cols[index] = Color.black;
-                else
-                    cols[index] = Color.white;
-
-                index++;
-            }
-        }
-
-
-        BarTexture.SetPixels(cols, 0);
-
-        BarTexture.Apply();
-    }
 }

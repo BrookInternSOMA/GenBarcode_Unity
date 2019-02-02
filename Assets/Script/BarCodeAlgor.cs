@@ -7,6 +7,13 @@ using Zen.Barcode;
 public class BarCodeAlgor
 {
 
+    #region Private Var
+    private Glyph[] m_Code128;
+    private Glyph[] m_Code128Check;
+    #endregion
+
+
+
     #region Public Var
     public string CODE { get; set; }
 
@@ -16,10 +23,7 @@ public class BarCodeAlgor
     #endregion
 
 
-    #region Private Var
-    private Glyph[] m_Code128;
-    private Glyph[] m_Code128Check;
-    #endregion
+
 
 
 

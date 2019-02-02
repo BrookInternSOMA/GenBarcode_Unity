@@ -5,9 +5,12 @@ using UnityEngine;
 public class Gen1DBarcode : MonoBehaviour
 {
 
+    private SetTextureFromQuad m_SetTexture = new SetTextureFromQuad();
+
+
     public GameObject QuadOfBarcode;
 
-    private SetTextureFromQuad m_SetTexture = new SetTextureFromQuad();
+
 
    
     private void Start()
