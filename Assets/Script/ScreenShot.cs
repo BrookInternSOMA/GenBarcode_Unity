@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using UnityEngine.PostProcessing;
+
 public class ScreenShot : MonoBehaviour
 {
 
@@ -13,6 +15,15 @@ public class ScreenShot : MonoBehaviour
 
 
 
+    public GameObject BackGround;
+    public GameObject Quad;
+    public GameObject Quad2;
+
+   
+
+
+    private void Start()
+    { }
 
 
 
@@ -23,9 +34,19 @@ public class ScreenShot : MonoBehaviour
 
 
 
-    public void Shot(string name)
+    public void Shot(string name, int flag)
     {
-        if(bFistInitPath)
+        if(flag == 1)
+        {
+            BackGround.SetActive(true);
+            Quad.SetActive(false);
+            Quad2.SetActive(true);
+            Camera.main.gameObject.GetComponent<PostProcessingBehaviour>().enabled = false;
+
+        }
+
+
+        if (bFistInitPath)
             strPath = Application.dataPath + "/../screenshots/";
 
         RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
@@ -38,10 +59,26 @@ public class ScreenShot : MonoBehaviour
         RenderTexture.active = null; // JC: added to avoid errors
         Destroy(rt);
         byte[] bytes = screenShot.EncodeToPNG();
-        string filename = ScreenShotName(name, resWidth, resHeight);
+        string filename;
+        if(flag == 1)
+            filename = ScreenShotName(name + "_map", resWidth, resHeight);
+        else
+            filename = ScreenShotName(name , resWidth, resHeight);
         //GameObject.Find("Text (22)").gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = filename;
         System.IO.File.WriteAllBytes(filename, bytes);
         Debug.Log(string.Format("Took screenshot to: {0}", filename));
+
+        if (flag == 1)
+        {
+            BackGround.SetActive(false);
+            Quad.SetActive(true);
+            Quad2.SetActive(false);
+
+            Camera.main.gameObject.GetComponent<PostProcessingBehaviour>().enabled = true;
+        }
     }
+
+  
+
 
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using SFB;
 
+using UnityEngine.PostProcessing;
+
 public class MakeRandomVar : MonoBehaviour
 {
 
@@ -32,7 +34,9 @@ public class MakeRandomVar : MonoBehaviour
     public GameObject Box;
     public GameObject Cam;
     public GameObject Quad;
+    public GameObject Quad2;
     public GameObject BarTextGen;
+    public GameObject BackGround;
 
 
 
@@ -88,17 +92,28 @@ public class MakeRandomVar : MonoBehaviour
     private GameObject LeftBottom;
     private GameObject RightBottom;
 
+
+    private Material mtmt;
+
+
     private void Awake()
     {
+
         m_ScreenShot = new ScreenShot();
         m_ScreenShot.resWidth = IMAGE_WIDTH;
         m_ScreenShot.resHeight = IMAGE_HEIGHT;
+        m_ScreenShot.BackGround = BackGround;
+        m_ScreenShot.Quad = Quad;
+        m_ScreenShot.Quad2 = Quad2;
 
     }
 
     private void Start()
     {
         preT = System.DateTime.Now;
+
+
+
 
         #region find ui obj instance
         ObjRotSlider = GameObject.Find("ObjRotSlider").GetComponent<UnityEngine.UI.Slider>();
@@ -141,6 +156,9 @@ public class MakeRandomVar : MonoBehaviour
         LeftBottom = GameObject.Find("LeftBottom");
         RightBottom = GameObject.Find("RightBottom");
 
+
+       
+
     }
 
     private float CalQuadWidth()
@@ -165,8 +183,8 @@ public class MakeRandomVar : MonoBehaviour
         System.TimeSpan deltaT;
         deltaT = nowT - preT;
         if(bStartMake)
-        {
             
+        {
             if (BarTextGen != null)
             {
                 Gen1DBarcode tempObjOfScript = BarTextGen.gameObject.GetComponent<Gen1DBarcode>();
@@ -201,7 +219,7 @@ public class MakeRandomVar : MonoBehaviour
 
             float randScale = Random.Range(0.5f, 1f);
 
-            float xPosQuad = -0.521f;
+            float xPosQuad = -0.562f;
             float yPosQuad;
             float zPosQuad;
 
@@ -218,9 +236,10 @@ public class MakeRandomVar : MonoBehaviour
 
 
             Quad.gameObject.transform.localPosition = new Vector3(xPosQuad, yPosQuad, zPosQuad);
+            Quad2.gameObject.transform.localPosition = new Vector3(xPosQuad, yPosQuad, zPosQuad);
 
             Quad.gameObject.transform.localScale = new Vector3(0.3f * 1.5f * randScale, 0.3f * randScale, 1);
-
+            Quad2.gameObject.transform.localScale = new Vector3(0.3f * 1.5f * randScale, 0.3f * randScale, 1);
 
             preT = System.DateTime.Now;
 
@@ -228,7 +247,8 @@ public class MakeRandomVar : MonoBehaviour
             {
                 m_ScreenShot.resWidth = int.Parse( WidFF.text);
                 m_ScreenShot.resHeight = int.Parse(HeiFF.text);
-                m_ScreenShot.Shot(iNumOfFiles.ToString() + "_" + iNumOfCycle.ToString());
+                m_ScreenShot.Shot(iNumOfFiles.ToString() + "_" + iNumOfCycle.ToString(),0);
+                m_ScreenShot.Shot(iNumOfFiles.ToString() + "_" + iNumOfCycle.ToString(), 1);
 
                 iNumOfFiles++;
             }
