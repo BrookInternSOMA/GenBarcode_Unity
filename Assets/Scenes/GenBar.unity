@@ -6057,7 +6057,7 @@ PrefabInstance:
     - target: {fileID: 1244833378057861491, guid: 70be59e91b63642b6b6a7a5c08f4c4d9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.54
+      value: -0.505
       objectReference: {fileID: 0}
     - target: {fileID: 1244833378057861491, guid: 70be59e91b63642b6b6a7a5c08f4c4d9,
         type: 3}
@@ -6275,7 +6275,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 964300528}
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.52, y: -0, z: 0}
+  m_LocalPosition: {x: -0.503, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2144535530}
@@ -14231,6 +14231,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cardboard-MasterCube
       objectReference: {fileID: 0}
+    - target: {fileID: 7099347454998999099, guid: 4717e0828a75b284da07e06513d34ad4,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7099347454998999079, guid: 4717e0828a75b284da07e06513d34ad4,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -14254,7 +14259,7 @@ PrefabInstance:
     - target: {fileID: 7099347454998999079, guid: 4717e0828a75b284da07e06513d34ad4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.552
+      value: -0.505
       objectReference: {fileID: 0}
     - target: {fileID: 402894, guid: 4717e0828a75b284da07e06513d34ad4, type: 3}
       propertyPath: m_LocalPosition.x

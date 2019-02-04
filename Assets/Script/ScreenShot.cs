@@ -61,7 +61,7 @@ public class ScreenShot : MonoBehaviour
         byte[] bytes = screenShot.EncodeToPNG();
         string filename;
         if(flag == 1)
-            filename = ScreenShotName(name + "_map", resWidth, resHeight);
+            filename = ScreenShotName("/map/"+name, resWidth, resHeight);
         else
             filename = ScreenShotName(name , resWidth, resHeight);
         //GameObject.Find("Text (22)").gameObject.GetComponentInChildren<UnityEngine.UI.Text>().text = filename;

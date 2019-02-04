@@ -219,7 +219,7 @@ public class MakeRandomVar : MonoBehaviour
 
             float randScale = Random.Range(0.5f, 1f);
 
-            float xPosQuad = -0.562f;
+            float xPosQuad = -0.505f;
             float yPosQuad;
             float zPosQuad;
 
