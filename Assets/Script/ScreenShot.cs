@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.IO;
 using System.Collections;
 
 using UnityEngine.PostProcessing;
@@ -19,7 +20,8 @@ public class ScreenShot : MonoBehaviour
     public GameObject Quad;
     public GameObject Quad2;
 
-   
+
+    private bool bCreateF = false;
 
 
     private void Start()
@@ -60,7 +62,18 @@ public class ScreenShot : MonoBehaviour
         Destroy(rt);
         byte[] bytes = screenShot.EncodeToPNG();
         string filename;
-        if(flag == 1)
+
+
+        if (!bCreateF)
+        {
+            DirectoryInfo di = new DirectoryInfo(strPath + "/map");
+            if (di.Exists == false)
+                di.Create();
+            bCreateF = true;
+        }
+
+
+        if (flag == 1)
             filename = ScreenShotName("/map/"+name, resWidth, resHeight);
         else
             filename = ScreenShotName(name , resWidth, resHeight);

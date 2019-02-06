@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using System.IO;
+using System.Text;
 using System.Collections.Generic;
 using UnityEngine;
 using SFB;
@@ -96,6 +98,12 @@ public class MakeRandomVar : MonoBehaviour
     private Material mtmt;
 
 
+    private StreamWriter sw;
+
+    private bool bSetDir = false;
+    private string strPath = "";
+
+
     private void Awake()
     {
 
@@ -112,7 +120,7 @@ public class MakeRandomVar : MonoBehaviour
     {
         preT = System.DateTime.Now;
 
-
+       
 
 
         #region find ui obj instance
@@ -161,17 +169,52 @@ public class MakeRandomVar : MonoBehaviour
 
     }
 
-    private float CalQuadWidth()
+
+    private Vector3 GetScreenPointFromObj(GameObject obj){ return Camera.main.WorldToScreenPoint(obj.gameObject.transform.position); }
+
+
+
+    private float[] CalXYforCSV()
     {
-        return Camera.main.WorldToScreenPoint(RightTop.gameObject.transform.position)[0] -
-                    Camera.main.WorldToScreenPoint(LeftTop.gameObject.transform.position)[0];
+        float xMin = 0f, xMax = 0f;
+        float yMin = 0f, yMax = 0f;
+
+        float[] res = new float[4];
+
+        xMin = GetScreenPointFromObj(LeftTop)[0];
+        yMin = GetScreenPointFromObj(LeftTop)[1];
+
+        xMax = GetScreenPointFromObj(LeftTop)[0];
+        yMax = GetScreenPointFromObj(LeftTop)[1];
+
+
+
+        GameObject[] contain = new GameObject[3];
+        contain[0] = RightTop;  contain[1] = LeftBottom;  contain[2] = RightBottom;
+        foreach (GameObject obj in contain)
+        {
+           
+            float tempXValue = GetScreenPointFromObj(obj)[0];
+            float tempYValue = GetScreenPointFromObj(obj)[1];
+
+            if (xMin >= tempXValue)
+                xMin = tempXValue;
+            if (xMax <= tempXValue)
+                xMax = tempXValue;
+
+            if (yMin >= tempYValue)
+                yMin = tempYValue;
+            if (yMax <= tempYValue)
+                yMax = tempYValue;
+        }
+
+
+        res[0] = xMin;  res[1] = float.Parse(HeiFF.text) - yMax; 
+        res[2] = xMax;  res[3] = float.Parse(HeiFF.text) - yMin;
+        return res;
+
     }
 
-    private float CalQuadHeight()
-    {
-        return Camera.main.WorldToScreenPoint(LeftTop.gameObject.transform.position)[1] -
-                    Camera.main.WorldToScreenPoint(LeftBottom.gameObject.transform.position)[1];
-    }
 
 
     private void Update()
@@ -250,9 +293,16 @@ public class MakeRandomVar : MonoBehaviour
                 m_ScreenShot.Shot(iNumOfFiles.ToString() + "_" + iNumOfCycle.ToString(),0);
                 m_ScreenShot.Shot(iNumOfFiles.ToString() + "_" + iNumOfCycle.ToString(), 1);
 
+                if (sw != null)
+                {
+                    Debug.Log("XMin : " + CalXYforCSV()[0] + "YMin : " + CalXYforCSV()[1] + "XMax : " + CalXYforCSV()[2] + "YMax : " + CalXYforCSV()[3]);
+                    sw.WriteLine(iNumOfFiles.ToString() + "_" + iNumOfCycle.ToString() + ".png" + "," + WidFF.text
+                                        + "," + HeiFF.text + "," + "barcode," + (int)CalXYforCSV()[0] + "," + (int)CalXYforCSV()[1] + ","
+                                        + (int)CalXYforCSV()[2] + "," + (int)CalXYforCSV()[3]);
+                }
+
                 iNumOfFiles++;
             }
-
 
 
            
@@ -260,8 +310,8 @@ public class MakeRandomVar : MonoBehaviour
 
         Debug.Log(Camera.main.WorldToScreenPoint(Quad.gameObject.transform.position));
 
-        Debug.Log("Wid : " + CalQuadWidth());
-        Debug.Log("Hei : " + CalQuadHeight());
+
+
     }
 
 
@@ -269,12 +319,24 @@ public class MakeRandomVar : MonoBehaviour
     { 
         bStartMake = true;
         bStartFlage = true;
+
+        Screen.SetResolution(int.Parse(WidFF.text), int.Parse(HeiFF.text), false);
+
+        if(bSetDir)
+            sw = new StreamWriter(strPath + "/labeling"+ iNumOfCycle.ToString() + ".csv", false, Encoding.Unicode);
+
     }
     public void StopMakeBarcodeImg()
     {
         ResetMakeBarcodeImg();
         bStartMake = false;
         bStartFlage = false;
+
+        //일단 픽스
+        Screen.SetResolution(1920, 1080, false);
+
+        if (sw != null)
+            sw.Close();
     }
     public void ResetMakeBarcodeImg()
     {
@@ -298,6 +360,9 @@ public class MakeRandomVar : MonoBehaviour
 
     public void SetSaveFilesDir()
     {
+
+        if (sw != null)
+            sw.Close();
 #if UNITY_EDITOR
         string path = UnityEditor.EditorUtility.OpenFolderPanel("Chose Save img that generated Barcode", "", "");
 #elif UNITY_STANDALONE_OSX
@@ -306,6 +371,11 @@ public class MakeRandomVar : MonoBehaviour
 
         m_ScreenShot.bFistInitPath = false;
         m_ScreenShot.strPath = path;
+        bSetDir = true;
+        strPath = path;
+
+        sw = new StreamWriter(path + "/labeling" + iNumOfCycle.ToString() + ".csv", false, Encoding.Unicode);
+        sw.WriteLine("filename,width,height,class,xmin,ymin,xmax,ymax");
     }
 
 
